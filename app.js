@@ -10,14 +10,16 @@ const connection = createConnection({
   database: "join_us",
 });
 
+app.set("view engine", "ejs");
+
 app.get("/", (req, res) => {
   const sqlQuery = "SELECT COUNT(*) AS count FROM users";
 
   connection.query(sqlQuery, (err, response) => {
     if (err) throw err;
-    console.log(response);
     const userCount = response[0].count;
-    res.send(`We have ${userCount} users in our db`);
+    // res.send(`We have ${userCount} users in our db`);
+    res.render("home", { data: userCount });
   });
 });
 
