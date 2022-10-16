@@ -1,6 +1,13 @@
 const express = require("express");
 const { createConnection } = require("mysql");
+const bodyParser = require("body-parser");
+const { urlencoded } = require("body-parser");
+const { faker } = require("@faker-js/faker");
+
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/public"));
+app.set("view engine", "ejs");
 
 // setup - only development
 const connection = createConnection({
@@ -10,16 +17,27 @@ const connection = createConnection({
   database: "join_us",
 });
 
-app.set("view engine", "ejs");
-
 app.get("/", (req, res) => {
   const sqlQuery = "SELECT COUNT(*) AS count FROM users";
 
-  connection.query(sqlQuery, (err, response) => {
+  connection.query(sqlQuery, (err, result) => {
     if (err) throw err;
-    const userCount = response[0].count;
+    const userCount = result[0].count;
     // res.send(`We have ${userCount} users in our db`);
     res.render("home", { data: userCount });
+  });
+});
+
+app.post("/register", (req, res) => {
+  const person = {
+    email: req.body.email,
+  };
+
+  connection.query("INSERT INTO users SET ?", person, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+
+    res.redirect("/");
   });
 });
 
