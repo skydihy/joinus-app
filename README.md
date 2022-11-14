@@ -11,6 +11,7 @@ SELECT * FROM users;
 ![terminal](https://github.com/skydihy/assets/blob/main/mysql/join-us/images/sql_joinus_terminal.png)
 
 <h2>inspect on chrome browser</h2>
+
 ![flow1](https://github.com/skydihy/assets/blob/main/mysql/join-us/images/sql_joinus_flow1.png)
 ![flow2](https://github.com/skydihy/assets/blob/main/mysql/join-us/images/sql_joinus_flow2.png)
 
