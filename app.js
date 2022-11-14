@@ -1,20 +1,20 @@
+require("dotenv").config({
+  path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : ".env",
+});
 const express = require("express");
 const { createConnection } = require("mysql");
 const bodyParser = require("body-parser");
-const { urlencoded } = require("body-parser");
-const { faker } = require("@faker-js/faker");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
-// setup - only development
 const connection = createConnection({
-  host: "localhost",
-  user: "root",
-  password: "12345600",
-  database: "join_us",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE_NAME,
 });
 
 app.get("/", (req, res) => {
@@ -41,6 +41,6 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.listen(8080, () => {
-  console.log("server is running on 8080");
+app.listen(process.env.PORT, () => {
+  console.log(`server is running on ${process.env.PORT}`);
 });
